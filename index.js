@@ -1,6 +1,7 @@
 // create a tcp modbus client
 const Modbus = require("jsmodbus");
 const net = require("net");
+const express = require("express");
 const { start } = require("repl");
 const socket = new net.Socket();
 const client = new Modbus.client.TCP(socket, 1);
@@ -10,12 +11,32 @@ const options = {
 };
 let retrying = false;
 
+const app = express();
+const http = require("http");
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+
+// io.on("connection", function (socket) {
+//   console.log(socket.id);
+//   socket.on("SEND_MESSAGE", function (data) {
+//     io.emit("MESSAGE", data);
+//   });
+// });
+
+io.on("connection", (socket) => {
+  console.log("A User Connected");
+
+  socket.on("disconnect", () => {
+    console.log("A User disconnected");
+  });
+});
 
 function connect() {
-    try {
-        console.log("Connected");
-        data();
-    } catch (error) { }
+  try {
+    console.log("Connected");
+    data();
+  } catch (error) {}
 }
 
 function makeConnection() {
@@ -41,17 +62,18 @@ socket.on("close", async () => {
 });
 
 async function data() {
-  var inc = 0;
+  var inc = null;
   setInterval(async function () {
     try {
       client.writeSingleRegister(1 - 1, inc);
       client.readHoldingRegisters(1 - 1, 5).then(function (resp) {
         console.log(resp.response.body.values);
-
+        let data1 = resp.response.body.values;
+        io.emit("data1", resp.response.body.values);
         inc++;
       });
     } catch (error) {}
-  }, 1000);
+  }, 500);
 }
 
 process.on("uncaughtException", (err) => {
@@ -60,5 +82,8 @@ process.on("uncaughtException", (err) => {
   });
 });
 socket.connect(options);
-
 connect();
+
+server.listen(3000, () => {
+  console.log("listening on *:3000");
+});
