@@ -32,12 +32,12 @@ io.on("connection", (socket) => {
   });
 });
 
-function connect() {
+const connect = () => {
   try {
     console.log("Connected");
     data();
   } catch (error) {}
-}
+};
 
 function makeConnection() {
   socket.connect(options.port, options.host);
@@ -57,7 +57,7 @@ socket.on("close", async () => {
       start();
 
       // Every 3 sec
-    }, 500);
+    }, 1000);
   } catch (error) {}
 });
 
@@ -67,13 +67,12 @@ async function data() {
     try {
       client.writeSingleRegister(1 - 1, inc);
       client.readHoldingRegisters(1 - 1, 5).then(function (resp) {
-        console.log(resp.response.body.values);
-        let data1 = resp.response.body.values;
-        io.emit("data1", resp.response.body.values);
+        io.emit("data1", resp.response.body.values[0]);
+        io.emit('data2', resp.response.body.values[1])
         inc++;
       });
     } catch (error) {}
-  }, 500);
+  }, 1000);
 }
 
 process.on("uncaughtException", (err) => {
