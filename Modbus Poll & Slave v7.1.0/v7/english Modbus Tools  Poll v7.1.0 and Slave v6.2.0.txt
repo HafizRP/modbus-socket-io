@@ -1,0 +1,102 @@
+https://rutracker.org/forum/viewtopic.php?t=5397005
+cracked
+
+
+Modbus Poll
+
+Modbus Poll is a Modbus master simulator designed primarily to help developers of Modbus slave devices or others that want to test and simulate the Modbus protocol. With the multiple document interface you can monitor several Modbus slaves and/or data areas at the same time. For each window you simply specify the Modbus slave ID, function, address, size and poll rate. You can read and write registers and coils from any window. If you want to change a single register, simply double click the value. Or you can change multiple registers/coils. Multiple data formats such as float, double and long with word order swapping are available.
+
+Exception errors are shown on the status line.
+
+If you are a slave developer you can compose and send your own test strings in the "test center" and check the result from the slave in hex numbers.
+
+OLE Automation for interfacing with Excel. To interpret and show the Modbus data according to your specific requirements. E.g. edit data in Excel and then transmit the data to your slave device! Try the Excel example.xlsm installed with the program.
+Supported protocol variants:
+
+    Modbus RTU
+    Modbus ASCII
+    Modbus TCP/IP
+    Modbus RTU Over TCP/IP
+    Modbus ASCII Over TCP/IP
+    Modbus UDP/IP
+    Modbus RTU Over UDP/IP
+    Modbus ASCII Over UDP/IP
+
+MODBUS POLL Technical Facts and Features:
+
+    OLE Automation for easy interface to Excel using Macro language VBA
+    Read/write of up to 125 Registers
+    Read/write of up to 2000 Inputs/Coils
+    Test Center (Compose your own test strings)
+    Print and print preview
+    Monitoring of serial data traffic
+    Data logging to text file
+    Data logging direct to Excel
+    Context sensitive help
+    12 Display formats such as float, double etc.
+    Adjustable Address Base (0 or 1)
+    Font and selection
+    Conditional color selection
+    Broadcast (slave ID 0)
+    Easy control of RS-485 converters with RTS toggle
+    ENRON/DANIEL Mode
+
+Supported Modbus Functions:
+
+    01: Read coil status
+    02: Read input status
+    03: Read holding registers
+    04: Read input registers
+    05: Force single coil
+    06: Preset single register
+    15: Force multiple coils
+    16: Preset multiple registers
+    17: Report slave ID
+    22: Mask write register
+    23: Read/Write registers
+
+Read the quick start guide here.
+
+===========================================
+
+Modbus Slave
+
+Modbus Slave is for simulating up to 32 slave devices in 32 windows!. Speed up your PLC programming with this simulating tools. Start programming and test before you receive your slave device from supplier. Data contained with any open document is accessible to the master application. Same user interface as Modbus Poll. Support function 01, 02, 03, 04, 05, 06, 15, 16, 22 and 23.
+Monitoring of serial traffic. OLE Automation for interfacing with Visual Basic, Excel etc. To interpret and show the Modbus data according to your specific requirements. E.g. edit edit your slave data in Excel. Try the Excel example.xls included with the program.
+Each window opened within Modbus Slave may be configured to represent data from the same or different slave node.
+
+OLE Automation for interfacing with Excel. To interpret and show the Modbus data according to your specific requirements. E.g. edit data in Excel and then transmit the data to your slave device! Try the Excel example.xlsm installed with the program.
+Supported protocol variants:
+
+    Modbus RTU
+    Modbus ASCII
+    Modbus TCP/IP
+    Modbus RTU Over TCP/IP
+    Modbus UDP/IP
+    Modbus RTU Over UDP/IP
+
+MODBUS Slave Technical Facts and Features:
+
+    OLE Automation for easy interface to Excel using Macro language VBA
+    Print and print preview
+    Monitoring of serial data traffic
+    Context sensitive help
+    12 Display formats such as float, double etc.
+    Adjustable Address Base (0 or 1)
+    Font and color selection
+    Broadcast (slave ID 0)
+    Easy control of RS-485 converters with RTS toggle
+
+Supported Modbus Functions:
+
+    01: Read coil status
+    02: Read input status
+    03: Read holding registers
+    04: Read input registers
+    05: Force single coil
+    06: Preset single register
+    15: Force multiple coils
+    16: Preset multiple registers
+    22: Mask write register
+    23: Read/Write registers
+

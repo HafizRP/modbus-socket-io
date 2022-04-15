@@ -1,6 +1,19 @@
 <template>
   <div class="container-fluid">
     <div class="">
+      <div class="alert alert-success" role="alert" v-if="this.temp >= 35">
+        <h4 class="alert-heading">Well done!</h4>
+        <p>
+          Aww yeah, you successfully read this important alert message. This
+          example text is going to run a bit longer so that you can see how
+          spacing within an alert works with this kind of content.
+        </p>
+        <hr />
+        <p class="mb-0">
+          Whenever you need to, be sure to use margin utilities to keep things
+          nice and tidy.
+        </p>
+      </div>
       <div
         id=""
         class="container-fluid"
@@ -11,12 +24,12 @@
         <!-- Temperature -->
         <div class="vl"></div>
         <p class="centered-noborder temptext text-center">Temperature</p>
-        <h3 class="centered text-body temp text-center">{{ temp }} °C</h3>
+        <h4 class="centered text-body temp text-center">{{ temp }} °C</h4>
 
         <!-- Pressure -->
         <div class="v2">
           <p class="centered-noborder presstext text-center">Pressure</p>
-          <h3 class="centered text-body press text-center">{{ temp }} Bar</h3>
+          <h4 class="centered text-body press text-center">{{ pres }} Bar</h4>
         </div>
 
         <!-- Indicators
@@ -157,13 +170,16 @@
 </template>
 
 <script>
-import io from "vue-socket.io";
+import io from "socket.io-client";
 export default {
   name: "HelloWorld",
   data() {
     return {
-      socket: io("localhost:3001"),
-      temp: [],
+      socket: io("localhost:3000", {
+        transports: ["websocket", "polling", "flashsocket"],
+      }),
+      temp: null,
+      pres: null,
       ccwr: true,
       cwr: true,
       steam: false,
@@ -181,7 +197,11 @@ export default {
   methods: {},
   mounted() {
     this.socket.on("data1", (data) => {
-      this.message.push(data);
+      this.temp = data;
+    });
+
+    this.socket.on("data2", (data) => {
+      this.pres = data;
     });
   },
 };
