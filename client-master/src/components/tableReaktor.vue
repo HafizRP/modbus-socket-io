@@ -1,6 +1,28 @@
 <template>
   <div class="container-fluid">
-    <table class="table table-bordered text-center">
+    <form class="form-inline">
+      <label class="pr-1 pb-1" for="target">Target : </label>
+      <input
+        type="text"
+        class="form-control mb-2 mr-sm-2"
+        id="target"
+        placeholder="1-1000 Pcs"
+        v-model="target"
+      />
+      <button
+        type="submit"
+        class="btn btn-primary mb-2"
+        @click.prevent="submit"
+      >
+        Submit
+      </button>
+    </form>
+
+    <h4 class="text-center" v-if="dataTarget.Indicator">
+      Target Produksi : {{ dataTarget.Numbers }}
+    </h4>
+
+    <table class="table table-bordered text-center pt-2">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -47,6 +69,21 @@
 <script>
 export default {
   name: "tableReaktor",
+  data() {
+    return {
+      dataTarget: {
+        Numbers: null,
+        Indicator: false,
+      },
+      target: null,
+    };
+  },
+  created() {},
+  methods: {
+    submit() {
+      this.dataTarget.Indicator = this.target;
+    },
+  },
 };
 </script>
 

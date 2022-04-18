@@ -1,38 +1,41 @@
 <template>
-  <div class="container-fluid">
-    <div class="">
-      <div class="alert alert-success" role="alert" v-if="this.temp >= 35">
-        <h4 class="alert-heading">Well done!</h4>
-        <p>
-          Aww yeah, you successfully read this important alert message. This
-          example text is going to run a bit longer so that you can see how
-          spacing within an alert works with this kind of content.
-        </p>
-        <hr />
-        <p class="mb-0">
-          Whenever you need to, be sure to use margin utilities to keep things
-          nice and tidy.
-        </p>
-      </div>
-      <div
-        id=""
-        class="container-fluid"
-        style="position: relative; width: 848px; height: 598px; z-index: 0"
-      >
-        <img src="../assets/reaktor.png" id="" class="img-fluid mt-4" alt="" />
+  <div>
+    <div class="alert alert-danger text-center" v-if="alert">
+      Connection disconnect!
+    </div>
+    <div class="container-fluid">
+      <div class="">
+        <div
+          id=""
+          class="container-fluid"
+          style="position: relative; width: 848px; height: 598px; z-index: 0"
+        >
+          <img
+            src="../assets/reaktor.png"
+            id=""
+            class="img-fluid mt-4 rounded"
+            alt=""
+            focusable="false"
+          />
 
-        <!-- Temperature -->
-        <div class="vl"></div>
-        <p class="centered-noborder temptext text-center">Temperature</p>
-        <h4 class="centered text-body temp text-center">{{ temp }} °C</h4>
+          <!-- Temperature -->
+          <div class="vl"></div>
+          <span class="centered-noborder temptext text-center"
+            >Temperature</span
+          >
+          <h4 class="centered text-body temp text-center">
+            {{ reaktor.temp }} °C
+          </h4>
 
-        <!-- Pressure -->
-        <div class="v2">
-          <p class="centered-noborder presstext text-center">Pressure</p>
-          <h4 class="centered text-body press text-center">{{ pres }} Bar</h4>
-        </div>
+          <!-- Pressure -->
+          <div class="v2">
+            <p class="centered-noborder presstext text-center">Pressure</p>
+            <h4 class="centered text-body press text-center">
+              {{ reaktor.press }} Bar
+            </h4>
+          </div>
 
-        <!-- Indicators
+          <!-- Indicators
         <img
           v-bind:class="
             ccwr ? 'ccwr indicator bg-success' : 'ccwr indicator bg-danger'
@@ -56,113 +59,134 @@
           "
         /> -->
 
-        <!-- Buttons -->
-        <div>
-          <!-- CCWR -->
-          <button
-            v-bind:class="ccwr ? 'btn-success btn-sm' : 'btn-danger btn-sm'"
-            style="position: absolute; left: 80px; top: 15px; z-index: 4"
-            disabled
-          >
-            {{ ccwr ? "Open" : "Close" }}
-          </button>
+          <!-- Buttons -->
+          <div>
+            <!-- CCWR -->
+            <button
+              v-bind:class="ccwr ? 'btn-success btn-sm' : 'btn-danger btn-sm'"
+              style="position: absolute; left: 80px; top: 15px; z-index: 4"
+              disabled
+            >
+              {{ ccwr ? "Open" : "Close" }}
+            </button>
 
-          <!-- CW-R -->
-          <button
-            v-bind:class="cwr ? 'btn-success btn-sm' : 'btn-danger btn-sm'"
-            style="position: absolute; left: 80px; top: 120px; z-index: 1"
-            disabled
-          >
-            {{ cwr ? "Open" : "Close" }}
-          </button>
+            <!-- CW-R -->
+            <button
+              v-bind:class="cwr ? 'btn-success btn-sm' : 'btn-danger btn-sm'"
+              style="position: absolute; left: 80px; top: 120px; z-index: 1"
+              disabled
+            >
+              {{ cwr ? "Open" : "Close" }}
+            </button>
 
-          <!-- STEAM -->
-          <button
-            v-bind:class="steam ? 'btn-success btn-sm' : 'btn-danger btn-sm'"
-            style="position: absolute; left: 125px; top: 220px; z-index: 1"
-            disabled
-          >
-            {{ steam ? "Open" : "Close" }}
-          </button>
+            <!-- STEAM -->
+            <button
+              v-bind:class="steam ? 'btn-success btn-sm' : 'btn-danger btn-sm'"
+              style="position: absolute; left: 125px; top: 220px; z-index: 1"
+              disabled
+            >
+              {{ steam ? "Open" : "Close" }}
+            </button>
 
-          <!-- STEAM LED -->
-          <button
-            v-bind:class="
-              steamIndicator ? 'btn-success btn-sm' : 'btn-danger btn-sm'
-            "
-            style="position: absolute; left: 208px; top: 230px; z-index: 1"
-            disabled
-          >
-            {{ steamIndicator ? "On" : "Off" }}
-          </button>
+            <!-- STEAM LED -->
+            <button
+              v-bind:class="
+                steamIndicator ? 'btn-success btn-sm' : 'btn-danger btn-sm'
+              "
+              style="position: absolute; left: 208px; top: 230px; z-index: 1"
+              disabled
+            >
+              {{ steamIndicator ? "On" : "Off" }}
+            </button>
 
-          <!-- CW -->
-          <button
-            v-bind:class="cw ? 'btn-success btn-sm' : 'btn-danger btn-sm'"
-            style="position: absolute; right: 250px; bottom: 225px; z-index: 3"
-            disabled
-          >
-            {{ cw ? "Open" : "Close" }}
-          </button>
+            <!-- CW -->
+            <button
+              v-bind:class="cw ? 'btn-success btn-sm' : 'btn-danger btn-sm'"
+              style="
+                position: absolute;
+                right: 250px;
+                bottom: 225px;
+                z-index: 3;
+              "
+              disabled
+            >
+              {{ cw ? "Open" : "Close" }}
+            </button>
 
-          <!-- CW LED -->
-          <button
-            v-bind:class="
-              cwIndicator ? 'btn-success btn-sm' : 'btn-danger btn-sm'
-            "
-            style="position: absolute; right: 180px; bottom: 170px; z-index: 3"
-            disabled
-          >
-            {{ cwIndicator ? "On" : "Off" }}
-          </button>
+            <!-- CW LED -->
+            <button
+              v-bind:class="
+                cwIndicator ? 'btn-success btn-sm' : 'btn-danger btn-sm'
+              "
+              style="
+                position: absolute;
+                right: 180px;
+                bottom: 170px;
+                z-index: 3;
+              "
+              disabled
+            >
+              {{ cwIndicator ? "On" : "Off" }}
+            </button>
 
-          <!-- CCW -->
-          <button
-            v-bind:class="ccw ? 'btn-success btn-sm' : 'btn-danger btn-sm'"
-            style="position: absolute; right: 137px; bottom: 260px; z-index: 3"
-            disabled
-          >
-            {{ ccw ? "Open" : "Close" }}
-          </button>
+            <!-- CCW -->
+            <button
+              v-bind:class="ccw ? 'btn-success btn-sm' : 'btn-danger btn-sm'"
+              style="
+                position: absolute;
+                right: 137px;
+                bottom: 260px;
+                z-index: 3;
+              "
+              disabled
+            >
+              {{ ccw ? "Open" : "Close" }}
+            </button>
 
-          <!-- CcW LED -->
-          <button
-            v-bind:class="
-              ccwIndicator ? 'btn-success btn-sm' : 'btn-danger btn-sm'
-            "
-            style="position: absolute; right: 80px; bottom: 170px; z-index: 3"
-            disabled
-          >
-            {{ ccwIndicator ? "On" : "Off" }}
-          </button>
+            <!-- CcW LED -->
+            <button
+              v-bind:class="
+                ccwIndicator ? 'btn-success btn-sm' : 'btn-danger btn-sm'
+              "
+              style="position: absolute; right: 80px; bottom: 170px; z-index: 3"
+              disabled
+            >
+              {{ ccwIndicator ? "On" : "Off" }}
+            </button>
 
-          <!-- DRAIN 1 -->
-          <button
-            v-bind:class="drain ? 'btn-success btn-sm' : 'btn-danger btn-sm'"
-            style="position: absolute; right: 115px; bottom: 105px; z-index: 3"
-            disabled
-          >
-            {{ drain ? "Open" : "Close" }}
-          </button>
+            <!-- DRAIN 1 -->
+            <button
+              v-bind:class="drain ? 'btn-success btn-sm' : 'btn-danger btn-sm'"
+              style="
+                position: absolute;
+                right: 115px;
+                bottom: 105px;
+                z-index: 3;
+              "
+              disabled
+            >
+              {{ drain ? "Open" : "Close" }}
+            </button>
 
-          <!-- DRAIN 2 -->
-          <button
-            v-bind:class="drain2 ? 'btn-success btn-sm' : 'btn-danger btn-sm'"
-            style="position: absolute; right: 160px; bottom: 0px; z-index: 2"
-            disabled
-          >
-            {{ drain2 ? "Open" : "Close" }}
-          </button>
+            <!-- DRAIN 2 -->
+            <button
+              v-bind:class="drain2 ? 'btn-success btn-sm' : 'btn-danger btn-sm'"
+              style="position: absolute; right: 160px; bottom: 0px; z-index: 2"
+              disabled
+            >
+              {{ drain2 ? "Open" : "Close" }}
+            </button>
 
-          <button
-            v-bind:class="
-              ccwIndicator ? 'btn-success btn-sm' : 'btn-danger btn-sm'
-            "
-            style="position: absolute; right: 73px; bottom: 50px; z-index: 3"
-            disabled
-          >
-            {{ ccwIndicator ? "On" : "Off" }}
-          </button>
+            <button
+              v-bind:class="
+                ccwIndicator ? 'btn-success btn-sm' : 'btn-danger btn-sm'
+              "
+              style="position: absolute; right: 73px; bottom: 50px; z-index: 3"
+              disabled
+            >
+              {{ ccwIndicator ? "On" : "Off" }}
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -178,8 +202,10 @@ export default {
       socket: io("localhost:3000", {
         transports: ["websocket", "polling", "flashsocket"],
       }),
-      temp: null,
-      pres: null,
+      reaktor: {
+        temp: null,
+        press: null,
+      },
       ccwr: true,
       cwr: true,
       steam: false,
@@ -192,16 +218,26 @@ export default {
       drain2: true,
       drainIndicator: false,
       steamIndicator: true,
+      alert: false,
     };
   },
   methods: {},
-  mounted() {
+  created() {
     this.socket.on("data1", (data) => {
-      this.temp = data;
+      this.reaktor.temp = data;
     });
 
     this.socket.on("data2", (data) => {
-      this.pres = data;
+      this.reaktor.press = data;
+    });
+  },
+  async mounted() {
+    this.socket.on("status", (data) => {
+      if ("reconnecting..." === data) {
+        this.alert = true;
+      } else {
+        this.alert = false;
+      }
     });
   },
 };

@@ -1,7 +1,5 @@
 <template>
   <div class="my-2 mx-0">
-    <h1 class="text-center">Reaktor 6</h1>
-
     <div class="row my-5 mx-0 justify-content-md-center">
       <div class="col-lg-auto col-md-auto">
         <HelloWorld />
