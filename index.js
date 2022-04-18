@@ -55,25 +55,25 @@ socket.on("close", async () => {
       console.log("Reconnecting...");
       io.emit("status", "reconnecting...");
     }
-    setTimeout(makeConnection, 1000);
+    setTimeout(makeConnection, 2000);
   }, 1000);
 });
 
+// Compile data and push it to frornt
 async function data() {
   retrying = false;
   var inc = null;
   setInterval(async function () {
     try {
-      io.emit("status", "connected");
-
       client.writeSingleRegister(1 - 1, inc);
       client.readHoldingRegisters(1 - 1, 6).then(function (resp) {
         io.emit("data1", resp.response.body.values[0]);
         io.emit("data2", resp.response.body.values[1]);
         inc++;
+        io.emit("status", "connected");
       });
     } catch (error) {}
-  }, 1000);
+  }, 2000);
 }
 
 socket.on("end", async () => {
