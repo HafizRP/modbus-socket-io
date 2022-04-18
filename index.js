@@ -9,7 +9,7 @@ const options = {
   host: "127.0.0.1",
   port: 502,
 };
-let retrying = false;
+let retrying;
 
 const app = express();
 const http = require("http");
@@ -34,9 +34,14 @@ io.on("connection", (socket) => {
 
 const connect = () => {
   try {
+    io.emit("status", "connected");
+
+    retrying = false;
     console.log("Connected");
     data();
-  } catch (error) {}
+  } catch (error) {
+    retrying = true;
+  }
 };
 
 function makeConnection() {
@@ -44,45 +49,46 @@ function makeConnection() {
 }
 
 socket.on("close", async () => {
-  try {
-    setTimeout(async () => {
-      console.log("Connection ended");
-      if (!retrying) {
-        retrying = true;
-        console.log("Reconnecting...");
-      }
-      retrying = false;
-      setTimeout(makeConnection, 1000);
-      // Again
-      start();
-
-      // Every 3 sec
-    }, 1000);
-  } catch (error) {}
+  setTimeout(() => {
+    if (retrying) {
+      console.log("Connection closed");
+      console.log("Reconnecting...");
+      io.emit("status", "reconnecting...");
+    }
+    setTimeout(makeConnection, 1000);
+  }, 1000);
 });
 
 async function data() {
+  retrying = false;
   var inc = null;
   setInterval(async function () {
     try {
+      io.emit("status", "connected");
+
       client.writeSingleRegister(1 - 1, inc);
-      client.readHoldingRegisters(1 - 1, 5).then(function (resp) {
+      client.readHoldingRegisters(1 - 1, 6).then(function (resp) {
         io.emit("data1", resp.response.body.values[0]);
-        io.emit('data2', resp.response.body.values[1])
+        io.emit("data2", resp.response.body.values[1]);
         inc++;
       });
     } catch (error) {}
   }, 1000);
 }
 
-process.on("uncaughtException", (err) => {
-  socket.on("end", async () => {
-    console.log("Connection ended");
-  });
+socket.on("end", async () => {
+  retrying = true;
+  console.log("Connection ended");
 });
+
+process.on("uncaughtException", (err) => {
+  retrying = true;
+});
+
 socket.connect(options);
 connect();
 
 server.listen(3000, () => {
+  retrying = false;
   console.log("listening on *:3000");
 });

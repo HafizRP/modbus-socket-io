@@ -26,8 +26,11 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    getData({ commit, state }) {
-      commit("setPress", state.socket.on("data1"));
+    getPress({ commit }) {
+      commit("setPress", 21);
+    },
+    getTemp({ commit }) {
+      commit("setTemp", 25);
     },
   },
   modules: {},

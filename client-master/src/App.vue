@@ -16,9 +16,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
-            <li class="nav-item active">
+            <!-- <li class="nav-item active">
               <router-link to="/" class="nav-link">Home</router-link>
-            </li>
+            </li> -->
             <li class="nav-item">
               <router-link to="/about" class="nav-link">About</router-link>
             </li>
