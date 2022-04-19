@@ -5,7 +5,7 @@
         <HelloWorld />
       </div>
       <div class="col-lg col-md">
-        <div class="mt-3">
+        <div class="mt-5">
           <TableReaktor />
         </div>
 
@@ -29,6 +29,7 @@ export default {
   data() {
     return {};
   },
+  mounted() {},
 };
 </script>
 
