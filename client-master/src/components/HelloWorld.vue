@@ -228,6 +228,7 @@ export default {
   //   },
   // },
   methods: {},
+
   created() {
     this.socket.on("data1", (data) => {
       this.reaktor.temp = data;
@@ -238,8 +239,6 @@ export default {
     });
   },
   mounted() {
-    this.$store.dispatch("Temperature");
-
     this.socket.on("status", (data) => {
       if ("reconnecting..." === data) {
         this.alert = true;
@@ -247,6 +246,12 @@ export default {
         this.alert = false;
       }
     });
+  },
+
+  computed: {
+    reaktorData() {
+      return this.$store.getters.data;
+    },
   },
 };
 </script>

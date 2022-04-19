@@ -34,7 +34,7 @@
         <tr>
           <th scope="">1</th>
           <td>Reaktor 1</td>
-          <td>{{ this.$store.getters.temp }} °C</td>
+          <td>{{ socketReaktor.temp }} °C</td>
         </tr>
         <tr>
           <th scope="">2</th>
@@ -83,7 +83,9 @@ export default {
       target: null,
     };
   },
-  created() {},
+  created() {
+    this.$store.dispatch("press");
+  },
   methods: {
     submit() {
       this.dataTarget.Indicator = this.target;
@@ -91,7 +93,7 @@ export default {
   },
   computed: {
     socketReaktor() {
-      return this.$store.getters.data;
+      return this.$store.getters.reaktor;
     },
   },
 };
