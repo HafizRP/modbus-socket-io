@@ -1,29 +1,30 @@
-// create a tcp modbus client
+// Modbus IO Instance
 const Modbus = require("jsmodbus");
 const net = require("net");
-const express = require("express");
-const { start } = require("repl");
 const socket = new net.Socket();
 const client = new Modbus.client.TCP(socket, 1);
 const options = {
   host: "127.0.0.1",
   port: 502,
 };
-let retrying;
 
+// Express Instance
+const express = require("express");
 const app = express();
+let retrying;
+const cors = require("cors");
+
+// Socket IO Instance
 const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+  },
+});
 
-// io.on("connection", function (socket) {
-//   console.log(socket.id);
-//   socket.on("SEND_MESSAGE", function (data) {
-//     io.emit("MESSAGE", data);
-//   });
-// });
-
+// Make Socket IO Connection
 io.on("connection", (socket) => {
   console.log("A User Connected");
 
@@ -32,55 +33,64 @@ io.on("connection", (socket) => {
   });
 });
 
+// Make Modbus Connection
 const connect = () => {
   try {
-    io.emit("status", "connected");
-
     retrying = false;
     console.log("Connected");
+    io.emit("status", "connected");
     data();
   } catch (error) {
     retrying = true;
   }
 };
 
+// Make a new Connection
 function makeConnection() {
-  socket.connect(options.port, options.host);
+  socket.connect(options);
 }
 
+// Close a connection
 socket.on("close", async () => {
-  setTimeout(() => {
-    if (retrying) {
-      console.log("Connection closed");
-      console.log("Reconnecting...");
-      io.emit("status", "reconnecting...");
-    }
-    setTimeout(makeConnection, 2000);
-  }, 1000);
+  try {
+    setTimeout(() => {
+      if (retrying) {
+        console.log("Connection closed");
+        console.log("Reconnecting...");
+        io.emit("status", "reconnecting...");
+      }
+      setTimeout(makeConnection(), 1000);
+    }, 500);
+  } catch (error) {
+    console.error;
+  }
+  // Trying to reconnect
 });
 
-// Compile data and push it to frornt
+// Compile data and push it to front-end
 async function data() {
   retrying = false;
   var inc = null;
-  setInterval(async function () {
-    try {
+  try {
+    setInterval(async function () {
       client.writeSingleRegister(1 - 1, inc);
       client.readHoldingRegisters(1 - 1, 6).then(function (resp) {
+        io.emit("data", resp.response.body.values);
         io.emit("data1", resp.response.body.values[0]);
         io.emit("data2", resp.response.body.values[1]);
         inc++;
         io.emit("status", "connected");
       });
-    } catch (error) {}
-  }, 2000);
+    }, 1000);
+  } catch (error) {}
 }
 
+// Connection ended
 socket.on("end", async () => {
-  retrying = true;
   console.log("Connection ended");
 });
 
+// Prevent app to close when error occured
 process.on("uncaughtException", (err) => {
   retrying = true;
 });

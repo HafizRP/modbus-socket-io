@@ -1,20 +1,19 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import io from "socket.io-client";
+// import { getTemp, getPress } from "../plugins/webSocket";
 
-import axios from "axios";
+let socket = io("http://localhost:3000");
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  // plugins: [getTemp(), getPress()],
   state: {
     data: {
       temp: null,
       press: null,
     },
-    socket: io("localhost:3000", {
-      transports: ["websocket", "polling", "flashsocket"],
-    }),
   },
   mutations: {
     setTemp({ state, temp }) {
@@ -26,16 +25,31 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    getPress({ commit }) {
-      commit("setPress", 21);
+    getTemp() {
+      // socket.on("data1", (data) => {
+      //   try {
+      //     console.log("Temperature");
+      //     dispatch("setTemp", data);
+      //   } catch (error) {
+      //     console.log("error");
+      //   }
+      // });
     },
-    getTemp({ commit }) {
-      commit("setTemp", 25);
+
+    getPress() {},
+
+    setTemp({ commit }, temp) {
+      commit("setTemp", temp);
+      console.log("Temperature");
+    },
+
+    setPress({ commit }, press) {
+      commit("setPress", press);
+      console.log("Pressure");
     },
   },
-  modules: {},
   getters: {
-    user({ state }) {
+    reaktor: function (state) {
       return state.data;
     },
   },

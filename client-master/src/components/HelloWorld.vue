@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div class="alert alert-danger text-center" v-if="alert">
-      Connection disconnect!
-    </div>
     <div class="container-fluid">
       <div class="">
         <div
@@ -190,11 +187,15 @@
         </div>
       </div>
     </div>
+    <div class="alert alert-danger text-center mt-3" v-if="alert">
+      <h4>Connection lost!</h4>
+    </div>
   </div>
 </template>
 
 <script>
 import io from "socket.io-client";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 export default {
   name: "HelloWorld",
   data() {
@@ -221,6 +222,11 @@ export default {
       alert: false,
     };
   },
+  // computed: {
+  //   reaktor() {
+  //     return this.$store.getters.reaktor;
+  //   },
+  // },
   methods: {},
   created() {
     this.socket.on("data1", (data) => {
@@ -231,7 +237,9 @@ export default {
       this.reaktor.press = data;
     });
   },
-  async mounted() {
+  mounted() {
+    this.$store.dispatch("Temperature");
+
     this.socket.on("status", (data) => {
       if ("reconnecting..." === data) {
         this.alert = true;
@@ -258,6 +266,7 @@ export default {
   left: 42%;
   transform: translate(-50%, -50%);
 }
+
 .vl {
   border-left: 2px solid black;
   height: 150px;

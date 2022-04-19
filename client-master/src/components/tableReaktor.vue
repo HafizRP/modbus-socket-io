@@ -1,17 +1,17 @@
 <template>
   <div class="container-fluid">
-    <form class="form-inline">
-      <label class="pr-1 pb-1" for="target">Target : </label>
+    <form class="form-inline mb-2 text-center">
+      <label class="mx-1" for="target">Target : </label>
       <input
         type="text"
-        class="form-control mb-2 mr-sm-2"
+        class="mx-1"
         id="target"
         placeholder="1-1000 Pcs"
         v-model="target"
       />
       <button
         type="submit"
-        class="btn btn-primary mb-2"
+        class="btn btn-primary btn-sm mx-1"
         @click.prevent="submit"
       >
         Submit
@@ -34,7 +34,7 @@
         <tr>
           <th scope="">1</th>
           <td>Reaktor 1</td>
-          <td>{{ this.$store.state.temp }} °C</td>
+          <td>{{ this.$store.getters.temp }} °C</td>
         </tr>
         <tr>
           <th scope="">2</th>
@@ -61,6 +61,11 @@
           <td>Reaktor 6</td>
           <td>{{ this.$store.state.temp }} °C</td>
         </tr>
+        <tr>
+          <th scope="">7</th>
+          <td>Reaktor 7</td>
+          <td>{{ this.$store.state.temp }} °C</td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -82,6 +87,11 @@ export default {
   methods: {
     submit() {
       this.dataTarget.Indicator = this.target;
+    },
+  },
+  computed: {
+    socketReaktor() {
+      return this.$store.getters.data;
     },
   },
 };
