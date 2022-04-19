@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import io from "socket.io-client";
-// import { getTemp, getPress } from "../plugins/webSocket";
+import { getTemp, getPress } from "../plugins/webSocket";
 
 let socket = io("http://localhost:3000");
 
@@ -37,6 +37,16 @@ export default new Vuex.Store({
     },
 
     getPress() {},
+
+    press({ dispatch }, hehe) {
+      socket.on("data", (data) => {
+        try {
+          console.log(data);
+          dispatch("setTemp", data[0]);
+          dispatch("setPress", data[1]);
+        } catch (error) {}
+      });
+    },
 
     setTemp({ commit }, temp) {
       commit("setTemp", temp);
