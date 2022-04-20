@@ -187,26 +187,17 @@
         </div>
       </div>
     </div>
-    <div class="alert alert-danger text-center mt-3" v-if="alert">
+    <div class="alert alert-danger text-center mt-3" v-if="!reaktor.status">
       <h4>Connection lost!</h4>
     </div>
   </div>
 </template>
 
 <script>
-import io from "socket.io-client";
-import { mapActions, mapGetters, mapMutations } from "vuex";
 export default {
   name: "HelloWorld",
   data() {
     return {
-      socket: io("localhost:3000", {
-        transports: ["websocket", "polling", "flashsocket"],
-      }),
-      reaktor: {
-        temp: null,
-        press: null,
-      },
       ccwr: true,
       cwr: true,
       steam: false,
@@ -219,38 +210,13 @@ export default {
       drain2: true,
       drainIndicator: false,
       steamIndicator: true,
-      alert: false,
     };
   },
-  // computed: {
-  //   reaktor() {
-  //     return this.$store.getters.reaktor;
-  //   },
-  // },
   methods: {},
 
-  created() {
-    this.socket.on("data1", (data) => {
-      this.reaktor.temp = data;
-    });
-
-    this.socket.on("data2", (data) => {
-      this.reaktor.press = data;
-    });
-  },
-  mounted() {
-    this.socket.on("status", (data) => {
-      if ("reconnecting..." === data) {
-        this.alert = true;
-      } else {
-        this.alert = false;
-      }
-    });
-  },
-
   computed: {
-    reaktorData() {
-      return this.$store.getters.data;
+    reaktor() {
+      return this.$store.getters.reaktor;
     },
   },
 };

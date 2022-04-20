@@ -34,37 +34,37 @@
         <tr>
           <th scope="">1</th>
           <td>Reaktor 1</td>
-          <td>{{ socketReaktor.temp }} °C</td>
+          <td>{{ reaktor.temp }} °C</td>
         </tr>
         <tr>
           <th scope="">2</th>
           <td>Reaktor 2</td>
-          <td>{{ this.$store.state.temp }} °C</td>
+          <td>{{ reaktor.temp }} °C</td>
         </tr>
         <tr>
           <th scope="">3</th>
           <td>Reaktor 3</td>
-          <td>{{ this.$store.state.temp }} °C</td>
+          <td>{{ reaktor.temp }} °C</td>
         </tr>
         <tr>
           <th scope="">4</th>
           <td>Reaktor 4</td>
-          <td>{{ this.$store.state.temp }} °C</td>
+          <td>{{ reaktor.temp }} °C</td>
         </tr>
         <tr>
           <th scope="">5</th>
           <td>Reaktor 5</td>
-          <td>{{ this.$store.state.temp }} °C</td>
+          <td>{{ reaktor.temp }} °C</td>
         </tr>
         <tr>
           <th scope="">6</th>
           <td>Reaktor 6</td>
-          <td>{{ this.$store.state.temp }} °C</td>
+          <td>{{ reaktor.temp }} °C</td>
         </tr>
         <tr>
           <th scope="">7</th>
           <td>Reaktor 7</td>
-          <td>{{ this.$store.state.temp }} °C</td>
+          <td>{{ reaktor.temp }} °C</td>
         </tr>
       </tbody>
     </table>
@@ -85,6 +85,7 @@ export default {
   },
   created() {
     this.$store.dispatch("press");
+    this.$store.dispatch("status");
   },
   methods: {
     submit() {
@@ -92,7 +93,7 @@ export default {
     },
   },
   computed: {
-    socketReaktor() {
+    reaktor() {
       return this.$store.getters.reaktor;
     },
   },
