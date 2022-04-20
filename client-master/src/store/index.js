@@ -1,66 +1,74 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import io from "socket.io-client";
-import { getTemp, getPress } from "../plugins/webSocket";
+// import { getTemp, getPress } from "../plugins/webSocket";
 
 let socket = io("http://localhost:3000");
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  // plugins: [getTemp(), getPress()],
   state: {
-    data: {
+    reaktor: {
       temp: null,
       press: null,
+      status: false,
     },
   },
   mutations: {
-    setTemp({ state, temp }) {
-      state.data.temp = temp;
+    setTemp(state, temp) {
+      state.reaktor.temp = temp;
     },
 
-    setPress({ state, press }) {
-      state.data.press = press;
+    setPress(state, press) {
+      state.reaktor.press = press;
+    },
+
+    setStatus(state, status) {
+      state.reaktor.status = status;
     },
   },
   actions: {
-    getTemp() {
-      // socket.on("data1", (data) => {
-      //   try {
-      //     console.log("Temperature");
-      //     dispatch("setTemp", data);
-      //   } catch (error) {
-      //     console.log("error");
-      //   }
-      // });
-    },
-
-    getPress() {},
-
-    press({ dispatch }, hehe) {
+    press({ dispatch }) {
       socket.on("data", (data) => {
         try {
-          console.log(data);
+          console.log();
           dispatch("setTemp", data[0]);
           dispatch("setPress", data[1]);
+          dispatch("setStatus", true);
+        } catch (error) {
+          console.log(error);
+        }
+      });
+    },
+
+    status({ dispatch }) {
+      socket.on("status", (data) => {
+        try {
+          if ("reconnecting..." == data) {
+            dispatch("setStatus", false);
+          } else {
+            dispatch("setStatus", true);
+          }
         } catch (error) {}
       });
     },
 
     setTemp({ commit }, temp) {
       commit("setTemp", temp);
-      console.log("Temperature");
     },
 
     setPress({ commit }, press) {
       commit("setPress", press);
-      console.log("Pressure");
+    },
+
+    setStatus({ commit }, status) {
+      commit("setStatus", status);
     },
   },
   getters: {
     reaktor: function (state) {
-      return state.data;
+      return state.reaktor;
     },
   },
 });

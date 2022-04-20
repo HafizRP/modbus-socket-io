@@ -12,7 +12,6 @@ const options = {
 const express = require("express");
 const app = express();
 let retrying;
-const cors = require("cors");
 
 // Socket IO Instance
 const http = require("http");
@@ -60,7 +59,7 @@ socket.on("close", async () => {
         io.emit("status", "reconnecting...");
       }
       setTimeout(makeConnection(), 1000);
-    }, 500);
+    }, 2000);
   } catch (error) {
     console.error;
   }
